@@ -31,11 +31,6 @@ keyboard = ReplyKeyboardMarkup(
 async def start(message: Message):
     await message.answer('Привет! Я бот, помогающий твоему здоровью. Выберите действие:', reply_markup=keyboard)
 
-@dp.message()
-async def all_messages(message: Message):
-    await message.answer('Введите команду /start, чтобы начать общение.')
-
-
 @dp.message(lambda message: message.text == 'Рассчитать')
 async def set_age(message: Message, state: FSMContext):
     await message.answer('Введите свой возраст:')
@@ -67,6 +62,10 @@ async def send_calories(message: Message, state: FSMContext):
 
     await message.answer(f'Ваша норма калорий: {calories} ккал в день.')
     await state.clear()
+
+@dp.message()
+async def all_messages(message: Message):
+    await message.answer('Введите команду /start, чтобы начать общение.')
 
 async def main():
     await dp.start_polling(bot)
