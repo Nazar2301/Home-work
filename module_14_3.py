@@ -6,7 +6,7 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.types import FSInputFile
 
-API_TOKEN = '7919294235:AAEMjy-CyZyamOerlXvBEtcNMcKxLRvIya8'
+API_TOKEN = 'TOKEN'
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(storage=MemoryStorage())
