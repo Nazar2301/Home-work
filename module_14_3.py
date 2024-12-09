@@ -4,8 +4,9 @@ from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton, InlineKe
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.types import FSInputFile
 
-API_TOKEN = 'TOKEN'
+API_TOKEN = '7919294235:AAEMjy-CyZyamOerlXvBEtcNMcKxLRvIya8'
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(storage=MemoryStorage())
@@ -56,8 +57,15 @@ async def main_menu(message: Message):
 @dp.message(lambda message: message.text == 'Купить')
 async def get_buying_list(message: Message):
     for i in range(1, 5):
-        await message.answer(f'Название: Product{i} | Описание: описание {i} | Цена: {i * 100}')
+        product_name = f'Product{i}'
+        description = f'Описание {i}'
+        price = f'{i * 100}'
 
+        image_path = f'imeges\\{i}.jpg'
+        image = FSInputFile(image_path)
+
+        await message.answer_photo(photo=image,
+                                   caption=f'Название: {product_name} | Описание: {description} | Цена: {price}')
     await message.answer('Выберите продукт для покупки:', reply_markup=product_keyboard)
 
 
