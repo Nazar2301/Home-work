@@ -11,6 +11,15 @@ def initiate_db():
             price INTEGER NOT NULL
         )
     ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS Users (
+            id INTEGER PRIMARY KEY,
+            username TEXT NOT NULL,
+            email TEXT NOT NULL,
+            age INTEGER NOT NULL,
+            balance INTEGER NOT NULL
+        )
+    ''')
     conn.commit()
     conn.close()
 
@@ -31,6 +40,24 @@ def add_product(title, description, price):
     ''', (title, description, price))
     conn.commit()
     conn.close()
+
+def add_user(username, email, age):
+    conn = sqlite3.connect('products.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO Users (username, email, age, balance)
+        VALUES (?, ?, ?, ?)
+    ''', (username, email, age, 1000))
+    conn.commit()
+    conn.close()
+
+def is_included(username):
+    conn = sqlite3.connect('products.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM Users WHERE username = ?', (username,))
+    user = cursor.fetchone()
+    conn.close()
+    return user is not None
 
 if __name__ == '__main__':
     initiate_db()
