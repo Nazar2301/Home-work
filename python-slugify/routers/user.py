@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from backend.db_depends import get_db
 from typing import Annotated
 from models.user import User
+from models.task import Task
 from schemas.user import CreateUser, UpdateUser
 from sqlalchemy import select
 from slugify import slugify
@@ -20,6 +21,11 @@ async def user_by_id(user_id: int, db: Annotated[Session, Depends(get_db)]):
     if user:
         return user
     raise HTTPException(status_code=404, detail="User was not found")
+
+@router.get("/{user_id}/tasks")
+async def tasks_by_user_id(user_id: int, db: Annotated[Session, Depends(get_db)]):
+    tasks = db.scalars(select(Task).where(Task.user_id == user_id)).all()
+    return tasks
 
 @router.post("/create")
 async def create_user(user: CreateUser, db: Annotated[Session, Depends(get_db)]):
